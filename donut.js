@@ -1,6 +1,7 @@
 import * as THREE from './node_modules/three/build/three.module.js';
 import { GLTFLoader } from './three.js/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from './three.js/examples/jsm/controls/OrbitControls.js';
+import { FirstPersonControls } from './three.js/examples/jsm/controls/FirstPersonControls.js';
  
 var camera, scene, renderer;
 var geometry, material, mesh;
@@ -11,7 +12,9 @@ init();
 function init() {
  
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 20000 );
-    camera.position.set( 1, 1, 20 );
+    camera.position.set( 1, 1, 1 );
+    // camera.lookAt(new THREE.Vector3(0,0,0));
+
 
     // load a renderer
     renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -21,7 +24,12 @@ function init() {
     scene = new THREE.Scene();
 
     // Load the Orbitcontroller
-    var controls = new OrbitControls( camera, renderer.domElement ); 
+    var controls = new FirstPersonControls(camera , renderer.domElement ); 
+	controls.movementSpeed = 10; 
+	controls.lookSpeed = 10; 
+	controls.lookVertical = false; 
+	controls.noFly = true;
+
 
     // Load Light
     var ambientLight = new THREE.AmbientLight( 0xcccccc );
@@ -33,7 +41,7 @@ function init() {
 
     loader.load( './donut.gltf', function ( gltf ) {
         var object = gltf.scene;
-	    gltf.scene.scale.set( 2, 2, 2 );
+	    gltf.scene.scale.set( 1, 1, 1 );
 	    gltf.scene.position.x = 0;				    //Position (x = right+ left-)
         gltf.scene.position.y = 0;				    //Position (y = up+, down-)
 	    gltf.scene.position.z = 0;				    //Position (z = front +, back-)
