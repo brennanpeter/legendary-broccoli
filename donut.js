@@ -1,6 +1,6 @@
-import * as THREE from './three.js-master/build/three.module.js';
-import { GLTFLoader } from './three.js-master/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from './three.js-master/examples/jsm/controls/OrbitControls.js';
+import * as THREE from './node_modules/three/build/three.module.js';
+import { GLTFLoader } from './three.js/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from './three.js/examples/jsm/controls/OrbitControls.js';
  
 var camera, scene, renderer;
 var geometry, material, mesh;
