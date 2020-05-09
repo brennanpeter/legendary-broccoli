@@ -1,7 +1,7 @@
-import * as THREE from './node_modules/three/build/three.module.js';
-import { GLTFLoader } from './three.js/examples/jsm/loaders/GLTFLoader.js';
-import { OrbitControls } from './three.js/examples/jsm/controls/OrbitControls.js';
-import { PointerLockControls } from './three.js/examples/jsm/controls/PointerLockControls.js';
+import * as THREE from '../node_modules/three/build/three.module.js';
+import { GLTFLoader } from '../three.js/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from '../three.js/examples/jsm/controls/OrbitControls.js';
+import { PointerLockControls } from '../three.js/examples/jsm/controls/PointerLockControls.js';
  
 var camera, scene, renderer;
 var geometry, material, mesh;
@@ -51,8 +51,47 @@ function init() {
 
     } );
 
+    // Set up pointer lock for the controls
+    // https://codepen.io/tembling/pen/reZjEw?editors=1010
+    // https://www.html5rocks.com/en/tutorials/pointerlock/intro/
 
+    // check if the browser even has pointer lock
+
+    checkpointerlock();
+
+    var havePointerLock = 'pointerLockElement' in document ||
+    'mozPointerLockElement' in document ||
+    'webkitPointerLockElement' in document;
+
+    scene.renderer.domElement.requestPointerLock = element.requestPointerLock ||
+			     element.mozRequestPointerLock ||
+			     element.webkitRequestPointerLock;
+    // Ask the browser to lock the pointer
+    scene.renderer.domElement.requestPointerLock();
+
+    // Hook pointer lock state change events
+    document.addEventListener('pointerlockchange', changeCallback, false);
+    document.addEventListener('mozpointerlockchange', changeCallback, false);
+    document.addEventListener('webkitpointerlockchange', changeCallback, false);
+
+    // Hook mouse move events
+    document.addEventListener("mousemove", this.moveCallback, false);
  
+}
+
+function pointerLockElement( ) {
+    if (document.pointerLockElement === requestedElement ||
+      document.mozPointerLockElement === requestedElement ||
+      document.webkitPointerLockElement === requestedElement) {
+      // Pointer was just locked
+      // Enable the mousemove listener
+      document.addEventListener("mousemove", this.moveCallback, false);
+    } else {
+      // Pointer was just unlocked
+      // Disable the mousemove listener
+      document.removeEventListener("mousemove", this.moveCallback, false);
+      this.unlockHook(this.element);
+    }
 }
 
 function animate() {
