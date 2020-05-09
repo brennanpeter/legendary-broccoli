@@ -1,7 +1,7 @@
 import * as THREE from './node_modules/three/build/three.module.js';
 import { GLTFLoader } from './three.js/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from './three.js/examples/jsm/controls/OrbitControls.js';
-import { FirstPersonControls } from './three.js/examples/jsm/controls/FirstPersonControls.js';
+import { PointerLockControls } from './three.js/examples/jsm/controls/PointerLockControls.js';
  
 var camera, scene, renderer;
 var geometry, material, mesh;
@@ -15,7 +15,6 @@ function init() {
     camera.position.set( 1, 1, 1 );
     // camera.lookAt(new THREE.Vector3(0,0,0));
 
-
     // load a renderer
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -24,12 +23,10 @@ function init() {
     scene = new THREE.Scene();
 
     // Load the Orbitcontroller
-    var controls = new FirstPersonControls(camera , renderer.domElement ); 
-	controls.movementSpeed = 10; 
-	controls.lookSpeed = 10; 
-	controls.lookVertical = false; 
-	controls.noFly = true;
-
+    scene.renderer = renderer
+    scene.controls = new PointerLockControls( camera, scene.renderer.domElement );
+    scene.controls.connect()
+    scene.controls.isLocked = true
 
     // Load Light
     var ambientLight = new THREE.AmbientLight( 0xcccccc );
@@ -53,6 +50,8 @@ function init() {
 	    console.error( error );
 
     } );
+
+
  
 }
 
