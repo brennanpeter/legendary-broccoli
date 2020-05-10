@@ -37,7 +37,7 @@ function init() {
     directionalLight.position.set( 0, 1, 1 ).normalize();
     scene.add( directionalLight );				
 
-    loader.load( './donut.gltf', function ( gltf ) {
+    loader.load( '../resources/donut.gltf', function ( gltf ) {
         var object = gltf.scene;
 	    gltf.scene.scale.set( 1, 1, 1 );
 	    gltf.scene.position.x = 0;				    //Position (x = right+ left-)
@@ -58,25 +58,8 @@ function init() {
 
     // check if the browser even has pointer lock
 
-    checkpointerlock();
-
-    var havePointerLock = 'pointerLockElement' in document ||
-    'mozPointerLockElement' in document ||
-    'webkitPointerLockElement' in document;
-
-    scene.renderer.domElement.requestPointerLock = element.requestPointerLock ||
-			     element.mozRequestPointerLock ||
-			     element.webkitRequestPointerLock;
-    // Ask the browser to lock the pointer
-    scene.renderer.domElement.requestPointerLock();
-
-    // Hook pointer lock state change events
-    document.addEventListener('pointerlockchange', changeCallback, false);
-    document.addEventListener('mozpointerlockchange', changeCallback, false);
-    document.addEventListener('webkitpointerlockchange', changeCallback, false);
-
     // Hook mouse move events
-    document.addEventListener("mousemove", this.moveCallback, false);
+    //document.addEventListener("mousemove", this.moveCallback, false);
  
 }
 
