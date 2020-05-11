@@ -56,10 +56,7 @@ function init() {
     // https://codepen.io/tembling/pen/reZjEw?editors=1010
     // https://www.html5rocks.com/en/tutorials/pointerlock/intro/
 
-    // check if the browser even has pointer lock
-
-    // Hook mouse move events
-    //document.addEventListener("mousemove", this.moveCallback, false);
+    checkpointerlock(scene.controls) 
  
 }
 

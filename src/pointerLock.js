@@ -1,23 +1,19 @@
 // code copied from  https://codepen.io/tembling/pen/reZjEw?editors=1010
-export function checkpointerlock() {
+export function checkpointerlock(controls) {
     var havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
     if ( havePointerLock ) {
+        console.log('Browser supports pointer lock');
 	    var element = document.body;
 	    var pointerlockchange = function ( event ) {
+            console.log('pointer lock change called ');
 		    if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
-			    controlsEnabled = true;
 			    controls.enabled = true;
-			    blocker.style.display = 'none';
 		    } else {
 			    controls.enabled = false;
-			    blocker.style.display = '-webkit-box';
-			    blocker.style.display = '-moz-box';
-			    blocker.style.display = 'box';
-			    instructions.style.display = '';
 		    }
 	    };
 	    var pointerlockerror = function ( event ) {
-		    instructions.style.display = '';
+            console.log('Pointer Lock Error');
 	    };
 	    // Hook pointer lock state change events
 	    document.addEventListener( 'pointerlockchange', pointerlockchange, false );
@@ -45,7 +41,7 @@ export function checkpointerlock() {
 			element.requestPointerLock();
 		}
     } else {
-	    instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
+	    console.log( 'Your browser doesn\'t seem to support Pointer Lock API');
     }
 
 }
