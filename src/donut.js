@@ -26,8 +26,6 @@ function init() {
     // Load the Orbitcontroller
     scene.renderer = renderer
     scene.controls = new PointerLockControls( camera, scene.renderer.domElement );
-    scene.controls.connect()
-    scene.controls.isLocked = true
 
     // Load Light
     var ambientLight = new THREE.AmbientLight( 0xcccccc );
@@ -56,8 +54,15 @@ function init() {
     // https://codepen.io/tembling/pen/reZjEw?editors=1010
     // https://www.html5rocks.com/en/tutorials/pointerlock/intro/
 
-    checkpointerlock(scene.controls) 
- 
+    // add an instructions page to the screen
+
+    // lock the pointer when that page is clicked
+    var instructions = document.getElementById( 'instructions' );
+
+	instructions.addEventListener( 'click', function () {
+		scene.controls.lock();
+	}, false );
+
 }
 
 function pointerLockElement( ) {
