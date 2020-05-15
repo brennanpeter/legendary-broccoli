@@ -62,15 +62,19 @@ function init() {
     // Set up key toggle controls
     
     document.addEventListener('keyup', logKey);
-
-    function logKey(e) {
-        console.log(` ${e.code} ` + "UP");
-    }
-
     document.addEventListener('keydown', logKey);
 
     function logKey(e) {
-        console.log(` ${e.code} ` + "DOWN");
+        // Break if composing in a IME helper
+        if (event.isComposing || event.keyCode === 229) {
+            return;
+        }
+        
+        // else only check for WASD and other useful chars
+        if (event.keyCode === 65) {
+           console.log("A"); 
+        }
+        
     }
 
 }
