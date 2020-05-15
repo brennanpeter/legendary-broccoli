@@ -51,17 +51,27 @@ function init() {
     } );
 
     // Set up pointer lock for the controls
-    // https://codepen.io/tembling/pen/reZjEw?editors=1010
-    // https://www.html5rocks.com/en/tutorials/pointerlock/intro/
-
-    // add an instructions page to the screen
-
-    // lock the pointer when that page is clicked
     var instructions = document.getElementById( 'instructions' );
 
 	instructions.addEventListener( 'click', function () {
+        var instructions = document.getElementById( 'instructions' );
 		scene.controls.lock();
+        instructions.style.display = 'none';
 	}, false );
+
+    // Set up key toggle controls
+    
+    document.addEventListener('keyup', logKey);
+
+    function logKey(e) {
+        console.log(` ${e.code} ` + "UP");
+    }
+
+    document.addEventListener('keydown', logKey);
+
+    function logKey(e) {
+        console.log(` ${e.code} ` + "DOWN");
+    }
 
 }
 
