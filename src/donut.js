@@ -76,14 +76,14 @@ function init() {
         }
         else if (event.keyCode === 83) {
             console.log("S"); 
-            scene.controls.moveForward("-1");
+            scene.controls.moveForward("-0.1");
         }
         else if (event.keyCode === 68) {
            console.log("D"); 
         }
         else if (event.keyCode === 87) {
             console.log("W"); 
-            scene.controls.moveForward("1");
+            scene.controls.moveForward("0.1");
         }
         
     }
