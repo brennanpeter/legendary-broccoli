@@ -13,6 +13,8 @@ var moveForward = false;
 var moveBackward = false;
 var moveLeft = false;
 var moveRight = false;
+var prevTime = performance.now();
+var velocity = new THREE.Vector3();
 
 init();
  
@@ -78,23 +80,61 @@ function init() {
 
         // else only check for WASD and other useful chars
         if (event.keyCode === 65) {
-           console.log("A"); 
+            if( event.type === "keydown" && moveLeft === false ){
+                // start moving left
+                moveLeft = true
+                moveRight = false
+                console.log("A down"); 
+            }
+            else if ( event.type === "keyup" && moveLeft === true ){
+                // stop moving left
+                moveLeft = false
+               console.log("A Up"); 
+            }
         }
         else if (event.keyCode === 83) {
             console.log("S"); 
-            scene.controls.moveForward("-0.1");
+            if( event.type === "keydown" && moveLeft === false ){
+                // start moving left
+                moveBackward = true
+                moveForward = false
+                console.log("S down"); 
+            }
+            else if ( event.type === "keyup" && moveLeft === true ){
+                // stop moving left
+                moveBackward = false
+                console.log("A Up"); 
+            }
         }
         else if (event.keyCode === 68) {
            console.log("D"); 
+            if( event.type === "keydown" && moveLeft === false ){
+                // start moving left
+                moveRight = true
+                moveLeft = false
+                console.log("D down"); 
+            }
+            else if ( event.type === "keyup" && moveLeft === true ){
+                // stop moving left
+                moveRight = false
+                console.log("A Up"); 
+            }
         }
         else if (event.keyCode === 87) {
             console.log("W"); 
-            scene.controls.moveForward("0.1");
+            if( event.type === "keydown" && moveLeft === false ){
+                // start moving left
+                moveForward = true
+                moveBackward = false
+                console.log("W down"); 
+            }
+            else if ( event.type === "keyup" && moveLeft === true ){
+                // stop moving left
+                moveForward = false
+                console.log("W Up"); 
+            }
         }
     }
-
-    var velocity = new THREE.Vector3();
-
 
 }
 
@@ -114,19 +154,21 @@ function pointerLockElement( ) {
 }
 
 function animate() {
+    // Velocity code yoinked from https://codepen.io/tembling/pen/reZjEw?editors=1000
     var time = performance.now();
 	var delta = ( time - prevTime ) / 1000;
-	velocity.x -= velocity.x * 10.0 * delta;
-	velocity.z -= velocity.z * 10.0 * delta;
+	velocity.x -= velocity.x * 1.0 * delta;
+	velocity.z -= velocity.z * 1.0 * delta;
 
-    if ( moveForward ) velocity.z -= 400.0 * delta;
-	if ( moveBackward ) velocity.z += 400.0 * delta;
-	if ( moveLeft ) velocity.x -= 400.0 * delta;
-	if ( moveRight ) velocity.x += 400.0 * delta;
+    if ( moveForward ) velocity.z -= 1.0 * delta;
+	if ( moveBackward ) velocity.z += 1.0 * delta;
+	if ( moveLeft ) velocity.x -= 1.0 * delta;
+	if ( moveRight ) velocity.x += 1.0 * delta;
 
     scene.controls.getObject().translateX( velocity.x * delta );
 	scene.controls.getObject().translateY( velocity.y * delta );
 
+    prevTime = time
 	render();
 	requestAnimationFrame( animate );
 }
