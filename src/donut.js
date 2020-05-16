@@ -156,6 +156,7 @@ function animate() {
 	var delta = ( time - prevTime ) / 1000;
 	velocity.x -= velocity.x * 1.0 * delta;
 	velocity.z -= velocity.z * 1.0 * delta;
+	velocity.y -= velocity.y * 1.0 * delta;
 
     if ( moveForward ) velocity.z -= 1.0 * delta;
 	if ( moveBackward ) velocity.z += 1.0 * delta;
@@ -164,6 +165,7 @@ function animate() {
 
     scene.controls.getObject().translateX( velocity.x * delta );
 	scene.controls.getObject().translateY( velocity.y * delta );
+	scene.controls.getObject().translateZ( velocity.z * delta );
 
     prevTime = time
 	render();
