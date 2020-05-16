@@ -93,43 +93,40 @@ function init() {
             }
         }
         else if (event.keyCode === 83) {
-            console.log("S"); 
-            if( event.type === "keydown" && moveLeft === false ){
-                // start moving left
+            if( event.type === "keydown" && moveBackward === false ){
+                // start moving backwards
                 moveBackward = true
                 moveForward = false
                 console.log("S down"); 
             }
-            else if ( event.type === "keyup" && moveLeft === true ){
-                // stop moving left
+            else if ( event.type === "keyup" && moveBackward === true ){
+                // stop moving backwards
                 moveBackward = false
-                console.log("A Up"); 
+                console.log("S Up"); 
             }
         }
         else if (event.keyCode === 68) {
-           console.log("D"); 
-            if( event.type === "keydown" && moveLeft === false ){
-                // start moving left
+            if( event.type === "keydown" && moveRight === false ){
+                // start moving right
                 moveRight = true
                 moveLeft = false
                 console.log("D down"); 
             }
-            else if ( event.type === "keyup" && moveLeft === true ){
-                // stop moving left
+            else if ( event.type === "keyup" && moveRight === true ){
+                // stop moving right
                 moveRight = false
                 console.log("A Up"); 
             }
         }
         else if (event.keyCode === 87) {
-            console.log("W"); 
-            if( event.type === "keydown" && moveLeft === false ){
-                // start moving left
+            if( event.type === "keydown" && moveForward === false ){
+                // start moving forwards
                 moveForward = true
                 moveBackward = false
                 console.log("W down"); 
             }
-            else if ( event.type === "keyup" && moveLeft === true ){
-                // stop moving left
+            else if ( event.type === "keyup" && moveForward === true ){
+                // stop moving forwards
                 moveForward = false
                 console.log("W Up"); 
             }
