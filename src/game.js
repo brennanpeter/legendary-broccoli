@@ -151,25 +151,43 @@ function pointerLockElement( ) {
 }
 
 function animate() {
+	requestAnimationFrame( animate );
+
     // Velocity code yoinked from https://codepen.io/tembling/pen/reZjEw?editors=1000
     var time = performance.now();
 	var delta = ( time - prevTime ) / 1000;
-	velocity.x -= velocity.x * 1.0 * delta;
-	velocity.z -= velocity.z * 1.0 * delta;
-	velocity.y -= velocity.y * 1.0 * delta;
+	velocity.x = 0;
+	velocity.z = 0;
+	velocity.y = 0;
 
-    if ( moveForward ) velocity.z -= 1.0 * delta;
-	if ( moveBackward ) velocity.z += 1.0 * delta;
-	if ( moveLeft ) velocity.x -= 1.0 * delta;
-	if ( moveRight ) velocity.x += 1.0 * delta;
+    if (moveBackward || moveForward) {
+        if ( moveForward ) {
+            velocity.z -= 50.0 * delta;
+        }
 
-    scene.controls.getObject().translateX( velocity.x * delta );
-	scene.controls.getObject().translateY( velocity.y * delta );
-	scene.controls.getObject().translateZ( velocity.z * delta );
+	    else if ( moveBackward ) {
+            velocity.z += 50.0 * delta;
+        }
+
+	    scene.controls.getObject().translateZ( velocity.z * delta );
+    }
+
+    if (moveRight || moveLeft) {
+	    if ( moveLeft ) {
+            velocity.x -= 50.0 * delta;
+        }
+
+	    else if ( moveRight ) {
+            velocity.x += 50.0 * delta;
+        }
+        scene.controls.getObject().translateX( velocity.x * delta );
+    }
+
+	//scene.controls.getObject().translateY( velocity.y * delta );
+    scene.controls.getObject().position.y = 1
 
     prevTime = time
 	render();
-	requestAnimationFrame( animate );
 }
 
 function render() {
