@@ -36,14 +36,25 @@ function init() {
     scene.controls = new PointerLockControls( camera, scene.renderer.domElement );
 
     // Load Light
-    var ambientLight = new THREE.AmbientLight( 0xcccccc );
-    scene.add( ambientLight );
+    //var ambientLight = new THREE.AmbientLight( 0xcccccc );
+    //scene.add( ambientLight );
 
-    var directionalLight = new THREE.DirectionalLight( 0xffffff );
-    directionalLight.position.set( 0, 1, 1 ).normalize();
-    scene.add( directionalLight );				
+    //var directionalLight = new THREE.DirectionalLight( 0xffffff );
+    //directionalLight.position.set( 0, 1, 1 ).normalize();
+    //scene.add( directionalLight );				
 
-    loader.load( '../resources/donut.gltf', function ( gltf ) {
+    var intensity = 1.5;
+
+    var pointLight = new THREE.PointLight( 0x0088ff, intensity, 20 );
+	pointLight.castShadow = true;
+	pointLight.shadow.camera.near = 1;
+	pointLight.shadow.camera.far = 60;
+	pointLight.shadow.bias = - 0.005;
+
+    pointLight.position.set( 0, 1, 1 ).normalize();
+    scene.add( pointLight );				
+
+    loader.load( '../resources/testworld.gltf', function ( gltf ) {
         var object = gltf.scene;
 	    gltf.scene.scale.set( 1, 1, 1 );
 	    gltf.scene.position.x = 0;				    //Position (x = right+ left-)
@@ -184,7 +195,7 @@ function animate() {
     }
 
 	//scene.controls.getObject().translateY( velocity.y * delta );
-    scene.controls.getObject().position.y = 1
+    scene.controls.getObject().position.y = 2
 
     prevTime = time
 	render();
