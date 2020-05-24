@@ -39,13 +39,20 @@ function init() {
     //var ambientLight = new THREE.AmbientLight( 0xcccccc );
     //scene.add( ambientLight );
 
-    //var directionalLight = new THREE.DirectionalLight( 0xffffff );
-    //directionalLight.position.set( 0, 1, 1 ).normalize();
-    //scene.add( directionalLight );				
+    var directionalLight = new THREE.DirectionalLight( 0xffffff );
+    directionalLight.position.set( 0, 30, 1 ).normalize();
+    directionalLight.shadow.camera.near = 10;
+    directionalLight.shadow.camera.far = 40;
+    directionalLight.shadow.bias = 0.005;
+    scene.add( directionalLight );				
+
+    var light = new THREE.DirectionalLight( 0xFFFFFF );
+    var helper = new THREE.DirectionalLightHelper( light, 5 );
+    scene.add( helper );
 
     var intensity = 1.5;
 
-    var pointLight = new THREE.PointLight( 0x0088ff, intensity, 20 );
+    var pointLight = new THREE.PointLight( 0xcccccc, intensity, 20 );
 	pointLight.castShadow = true;
 	pointLight.shadow.camera.near = 1;
 	pointLight.shadow.camera.far = 60;
@@ -95,12 +102,10 @@ function init() {
                 // start moving left
                 moveLeft = true
                 moveRight = false
-                console.log("A down"); 
             }
             else if ( event.type === "keyup" && moveLeft === true ){
                 // stop moving left
                 moveLeft = false
-               console.log("A Up"); 
             }
         }
         else if (event.keyCode === 83) {
@@ -108,12 +113,10 @@ function init() {
                 // start moving backwards
                 moveBackward = true
                 moveForward = false
-                console.log("S down"); 
             }
             else if ( event.type === "keyup" && moveBackward === true ){
                 // stop moving backwards
                 moveBackward = false
-                console.log("S Up"); 
             }
         }
         else if (event.keyCode === 68) {
@@ -121,12 +124,10 @@ function init() {
                 // start moving right
                 moveRight = true
                 moveLeft = false
-                console.log("D down"); 
             }
             else if ( event.type === "keyup" && moveRight === true ){
                 // stop moving right
                 moveRight = false
-                console.log("A Up"); 
             }
         }
         else if (event.keyCode === 87) {
@@ -134,12 +135,10 @@ function init() {
                 // start moving forwards
                 moveForward = true
                 moveBackward = false
-                console.log("W down"); 
             }
             else if ( event.type === "keyup" && moveForward === true ){
                 // stop moving forwards
                 moveForward = false
-                console.log("W Up"); 
             }
         }
     }
@@ -173,11 +172,11 @@ function animate() {
 
     if (moveBackward || moveForward) {
         if ( moveForward ) {
-            velocity.z -= 50.0 * delta;
+            velocity.z -= 100.0 * delta;
         }
 
 	    else if ( moveBackward ) {
-            velocity.z += 50.0 * delta;
+            velocity.z += 100.0 * delta;
         }
 
 	    scene.controls.getObject().translateZ( velocity.z * delta );
@@ -185,17 +184,17 @@ function animate() {
 
     if (moveRight || moveLeft) {
 	    if ( moveLeft ) {
-            velocity.x -= 50.0 * delta;
+            velocity.x -= 100.0 * delta;
         }
 
 	    else if ( moveRight ) {
-            velocity.x += 50.0 * delta;
+            velocity.x += 100.0 * delta;
         }
         scene.controls.getObject().translateX( velocity.x * delta );
     }
 
 	//scene.controls.getObject().translateY( velocity.y * delta );
-    scene.controls.getObject().position.y = 2
+    //scene.controls.getObject().position.y = 2
 
     prevTime = time
 	render();
