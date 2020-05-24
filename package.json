@@ -2,11 +2,14 @@
   "name": "legendary-broccoli",
   "version": "1.0.0",
   "description": "",
-  "main": "donut.js",
+  "private": true,
   "dependencies": {
     "three": "^0.116.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

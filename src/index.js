@@ -2,7 +2,6 @@ import * as THREE from '../node_modules/three/build/three.module.js';
 import { GLTFLoader } from '../three.js/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from '../three.js/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from '../three.js/examples/jsm/controls/PointerLockControls.js';
-import { checkpointerlock } from './pointerLock.js'
  
 var camera, scene, renderer;
 var geometry, material, mesh;
