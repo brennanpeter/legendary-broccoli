@@ -16,7 +16,13 @@ var moveRight = false;
 var prevTime = performance.now();
 var velocity = new THREE.Vector3();
 
+var helper;
+
 init();
+
+function load_alert() {
+    console.log("Page Loaded");
+}
  
 function init() {
  
@@ -39,18 +45,21 @@ function init() {
     //var ambientLight = new THREE.AmbientLight( 0xcccccc );
     //scene.add( ambientLight );
 
-    var directionalLight = new THREE.DirectionalLight( 0xffffff );
-    directionalLight.position.set( 0, 30, 1 ).normalize();
-    directionalLight.shadow.camera.near = 10;
-    directionalLight.shadow.camera.far = 40;
-    directionalLight.shadow.bias = 0.005;
-    scene.add( directionalLight );				
+    // Add a directional light to point at the paintings
+    var spotLight = new THREE.SpotLight( 0xffffff, 0.5);
+    spotLight.position.set( 5, 5, 5 );
+    // point the light 
+    spotLight.target.position.set(0.5, 4, -8);
+    spotLight.angle = Math.PI / 10;
+    spotLight.decay = 2;
+    scene.add( spotLight.target );
+    scene.add( spotLight );				
 
-    var light = new THREE.DirectionalLight( 0xFFFFFF );
-    var helper = new THREE.DirectionalLightHelper( light, 5 );
+    helper = new THREE.SpotLightHelper( spotLight, 1 );
     scene.add( helper );
 
-    var intensity = 1.5;
+    
+    var intensity = 1;
 
     var pointLight = new THREE.PointLight( 0xcccccc, intensity, 20 );
 	pointLight.castShadow = true;
@@ -58,8 +67,10 @@ function init() {
 	pointLight.shadow.camera.far = 60;
 	pointLight.shadow.bias = - 0.005;
 
-    pointLight.position.set( 0, 1, 1 ).normalize();
+    pointLight.position.set( 0, 5, 0 );
     scene.add( pointLight );				
+
+    document.addEventListener("load", load_alert);
 
     loader.load( '../resources/testworld.gltf', function ( gltf ) {
         var object = gltf.scene;
@@ -69,12 +80,21 @@ function init() {
 	    gltf.scene.position.z = 0;				    //Position (z = front +, back-)
 
 	    scene.add( gltf.scene );
+        console.log("Loaded Model");
 
     }, undefined, function ( error ) {
 
 	    console.error( error );
 
     } );
+
+    // Set up auto resizing 
+    window.addEventListener( 'resize', onWindowResize, false );
+    function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
 
     // Set up pointer lock for the controls
     var instructions = document.getElementById( 'instructions' );
@@ -89,6 +109,7 @@ function init() {
     
     document.addEventListener('keyup', logKey);
     document.addEventListener('keydown', logKey);
+
 
     function logKey(e) {
         // Break if composing in a IME helper
@@ -197,6 +218,8 @@ function animate() {
     //scene.controls.getObject().position.y = 2
 
     prevTime = time
+
+    helper.update()
 	render();
 }
 
