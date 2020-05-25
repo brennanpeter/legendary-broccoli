@@ -1,1 +1,1 @@
-gnome-terminal -e 'sh -c "cd dist; python3 -m http.server"'
+gnome-terminal -- /bin/sh -c 'cd dist; python3 -m http.server'
