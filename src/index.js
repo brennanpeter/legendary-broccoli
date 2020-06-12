@@ -22,7 +22,7 @@ init();
 function load_alert() {
     console.log("Page Loaded");
 }
- 
+
 function init() {
  
     camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 20000 );
@@ -41,8 +41,6 @@ function init() {
     scene.controls = new PointerLockControls( camera, scene.renderer.domElement );
 
     // Load Light
-    //var ambientLight = new THREE.AmbientLight( 0xcccccc );
-    //scene.add( ambientLight );
 
     // Add a directional light to point at the paintings
     var spotLight = new THREE.SpotLight( 0xffffff, 0.5);
@@ -50,7 +48,7 @@ function init() {
     // point the light 
     spotLight.target.position.set(0.5, 4, -8);
     spotLight.angle = Math.PI / 10;
-    spotLight.decay = 2;
+    spotLight.distance = 20;
     scene.add( spotLight.target );
     scene.add( spotLight );				
 
@@ -58,20 +56,21 @@ function init() {
     scene.add( helper );
 
     
-    var intensity = 1;
+    // point lights for ambient lighting
+    var intensity = 0.5;
 
-    var pointLight = new THREE.PointLight( 0xcccccc, intensity, 20 );
-	pointLight.castShadow = true;
-	pointLight.shadow.camera.near = 1;
-	pointLight.shadow.camera.far = 60;
-	pointLight.shadow.bias = - 0.005;
-
-    pointLight.position.set( 0, 5, 0 );
-    scene.add( pointLight );				
+    addPointLightAtPos( 0, 5, 0 , intensity);
+    addPointLightAtPos( -8, 5, 4 , intensity);
+    addPointLightAtPos( -16, 5, 4 , intensity);
+    addPointLightAtPos( -16, 4, -4 , intensity);
+    addPointLightAtPos( -24, 5, 4 , intensity);
+    addPointLightAtPos( -24, 3, -8 , intensity);
+    addPointLightAtPos( -32, 5, 4 , intensity);
+    addPointLightAtPos( -40, 5, 4 , intensity);
 
     document.addEventListener("load", load_alert);
 
-    loader.load( '../resources/testworld.gltf', function ( gltf ) {
+    loader.load( '../resources/gallery.gltf', function ( gltf ) {
         var object = gltf.scene;
 	    gltf.scene.scale.set( 1, 1, 1 );
 	    gltf.scene.position.x = 0;				    //Position (x = right+ left-)
@@ -108,7 +107,6 @@ function init() {
     
     document.addEventListener('keyup', logKey);
     document.addEventListener('keydown', logKey);
-
 
     function logKey(e) {
         // Break if composing in a IME helper
@@ -165,6 +163,17 @@ function init() {
 
 }
 
+function addPointLightAtPos(x, y, z, intensity){
+    var pointLight = new THREE.PointLight( 0xcccccc, intensity, 20 );
+	pointLight.castShadow = true;
+	pointLight.shadow.camera.near = 1;
+	pointLight.shadow.camera.far = 60;
+	pointLight.shadow.bias = - 0.005;
+    pointLight.position.set( x, y, z );
+    scene.add( pointLight );				
+    
+}
+
 function pointerLockElement( ) {
     if (document.pointerLockElement === requestedElement ||
       document.mozPointerLockElement === requestedElement ||
@@ -179,7 +188,7 @@ function pointerLockElement( ) {
       this.unlockHook(this.element);
     }
 }
-
+var pos;
 function animate() {
 	requestAnimationFrame( animate );
 
@@ -220,6 +229,10 @@ function animate() {
 
     helper.update()
 	render();
+
+    pos = scene.controls.getObject().position;
+    // Position print useful for setting new lights
+    // console.log("X: " + pos.x + "  Y: " + pos.y + "  Z: " + pos.z);
 }
 
 function render() {
