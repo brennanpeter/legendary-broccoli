@@ -124,7 +124,7 @@ function init() {
         }
 
         // else only check for WASD and other useful chars
-        if (event.keyCode === 65) {
+        if (event.keyCode === 65 || event.keyCode === 37) {
             if( event.type === "keydown" && moveLeft === false ){
                 // start moving left
                 moveLeft = true
@@ -135,7 +135,7 @@ function init() {
                 moveLeft = false
             }
         }
-        else if (event.keyCode === 83) {
+        else if (event.keyCode === 83 || event.keyCode === 40  ) {
             if( event.type === "keydown" && moveBackward === false ){
                 // start moving backwards
                 moveBackward = true
@@ -146,7 +146,7 @@ function init() {
                 moveBackward = false
             }
         }
-        else if (event.keyCode === 68) {
+        else if (event.keyCode === 68 || event.keyCode === 39 ) {
             if( event.type === "keydown" && moveRight === false ){
                 // start moving right
                 moveRight = true
@@ -157,7 +157,7 @@ function init() {
                 moveRight = false
             }
         }
-        else if (event.keyCode === 87) {
+        else if (event.keyCode === 87 || event.keyCode === 38) {
             if( event.type === "keydown" && moveForward === false ){
                 // start moving forwards
                 moveForward = true
