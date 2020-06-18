@@ -2,7 +2,7 @@ import * as THREE from '../node_modules/three/build/three.module.js';
 import { GLTFLoader } from '../three.js/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from '../three.js/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from '../three.js/examples/jsm/controls/PointerLockControls.js';
- 
+
 var camera, scene, renderer;
 var geometry, material, mesh;
 var loader = new GLTFLoader();
@@ -12,6 +12,7 @@ var moveForward = false;
 var moveBackward = false;
 var moveLeft = false;
 var moveRight = false;
+
 var prevTime = performance.now();
 var velocity = new THREE.Vector3();
 
@@ -32,6 +33,7 @@ function init() {
     // load a renderer
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setSize( window.innerWidth, window.innerHeight );
+    
     document.body.appendChild( renderer.domElement );
  
     scene = new THREE.Scene();
@@ -95,19 +97,26 @@ function init() {
 			}
 
     // Set up pointer lock for the controls
+
+    // add the instructions div to the dom
+    var inst = document.createElement("DIV");
+    inst.style = "position: absolute; z-index: 100; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(171, 205, 239, 0.3); "
+    var text = document.createTextNode("MENU");
+    inst.appendChild(text);
+    inst.id = "instructions";
+    document.body.appendChild(inst);
+
     var instructions = document.getElementById( 'instructions' );
 
 	instructions.addEventListener( 'click', function () {
         var instructions = document.getElementById( 'instructions' );
-		scene.controls.lock();
+        // hide the instructions
         instructions.style.display = 'none';
+        // add the renderer to the dom
+		scene.controls.lock();
 	}, false );
 
     // Set up key toggle controls
-    
-    document.addEventListener('keyup', logKey);
-    document.addEventListener('keydown', logKey);
-
     function logKey(e) {
         // Break if composing in a IME helper
         if (event.isComposing || event.keyCode === 229) {
@@ -161,6 +170,10 @@ function init() {
         }
     }
 
+    document.addEventListener('keyup', logKey);
+    document.addEventListener('keydown', logKey);
+    
+
 }
 
 function addPointLightAtPos(x, y, z, intensity){
@@ -176,16 +189,18 @@ function addPointLightAtPos(x, y, z, intensity){
 
 function pointerLockElement( ) {
     if (document.pointerLockElement === requestedElement ||
-      document.mozPointerLockElement === requestedElement ||
-      document.webkitPointerLockElement === requestedElement) {
-      // Pointer was just locked
-      // Enable the mousemove listener
-      document.addEventListener("mousemove", this.moveCallback, false);
+        document.mozPointerLockElement === requestedElement ||
+        document.webkitPointerLockElement === requestedElement) {
+        // Pointer was just locked
+        // Enable the mousemove listener
+        document.addEventListener("mousemove", this.moveCallback, false);
     } else {
-      // Pointer was just unlocked
-      // Disable the mousemove listener
-      document.removeEventListener("mousemove", this.moveCallback, false);
-      this.unlockHook(this.element);
+        // Pointer was just unlocked
+        // Disable the mousemove listener
+        document.removeEventListener("mousemove", this.moveCallback, false);
+        this.unlockHook(this.element);
+        var instructions = document.getElementById( 'instructions' );
+        instructions.style.display = 'none';
     }
 }
 var pos;
